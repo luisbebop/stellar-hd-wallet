@@ -1,7 +1,7 @@
 import has from 'lodash/has'
-import bip39 from 'bip39'
-import {derivePath, getMasterKeyFromSeed, getPublicKey} from 'ed25519-hd-key'
-import {Keypair} from 'stellar-base'
+import bip39 from 'react-native-bip39'
+import {derivePath, getMasterKeyFromSeed, getPublicKey} from '@hawkingnetwork/ed25519-hd-key-rn'
+import {Keypair} from '@pigzbe/react-native-stellar-sdk'
 
 const ENTROPY_BITS = 256 // = 24 word mnemonic
 
