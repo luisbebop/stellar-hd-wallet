@@ -5,9 +5,9 @@
   "author": "Chris Hatch",
   "repository": "chatch/stellar-hd-wallet",
   "license": "Apache-2.0",
-  "main": "lib/stellar-hd-wallet.js",
+  "main": "src/stellar-hd-wallet.js",
   "files": [
-    "lib"
+    "src"
   ],
   "scripts": {
     "test": "mocha --require babel-register",
