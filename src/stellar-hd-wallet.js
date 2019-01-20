@@ -20,7 +20,7 @@ class StellarHDWallet {
    * @param {string} [language='english'] Optional language of mnemonic
    * @throws {Error} Invalid Mnemonic
    */
-  static fromMnemonic(mnemonic, password = undefined, language = 'english') {
+  static fromMnemonic(mnemonic, password = undefined, language = 'EN') {
     if (!StellarHDWallet.validateMnemonic(mnemonic, language)) {
       throw new Error(INVALID_MNEMONIC)
     }
@@ -55,7 +55,7 @@ class StellarHDWallet {
    */
   static generateMnemonic({
     entropyBits = ENTROPY_BITS,
-    language = 'english',
+    language = 'EN',
     rngFn = undefined,
   } = {}) {
     if (language && !has(bip39.wordlists, language))
@@ -74,7 +74,7 @@ class StellarHDWallet {
    *          here https://github.com/bitcoinjs/bip39/blob/master/index.js
    * @throws {TypeError} Langauge not supported by bip39 module
    */
-  static validateMnemonic(mnemonic, language = 'english') {
+  static validateMnemonic(mnemonic, language = 'EN') {
     if (language && !has(bip39.wordlists, language))
       throw new TypeError(
         `Language ${language} does not have a wordlist in the bip39 module`
