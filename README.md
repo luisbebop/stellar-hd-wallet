@@ -1,11 +1,97 @@
-# stellar-hd-wallet
+# stellar-hd-wallet-react-native
 
-[![NPM Package](https://img.shields.io/npm/v/stellar-hd-wallet.svg?style=flat-square)](https://www.npmjs.org/package/stellar-hd-wallet)
-[![Build Status](https://img.shields.io/travis/chatch/stellar-hd-wallet.svg?branch=master&style=flat-square)](https://travis-ci.org/chatch/stellar-hd-wallet)
-
-Key derivation for Stellar ([SEP-0005](https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0005.md))
+React Native key derivation for Stellar ([SEP-0005](https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0005.md))
 
 ## Usage
+
+```shell
+npm install luisbebop/stellar-hd-wallet-react-native --save
+npm install rn-nodeify --save
+./node_modules/.bin/rn-nodeify --hack --install
+# add shim.js import './shim.js'
+react-native link
+react-native link react-native-randombytes
+```
+
+```js
+import './shim.js';
+
+import React, {Component} from 'react';
+import {Platform, StyleSheet, Text, View} from 'react-native';
+import StellarHDWallet from 'stellar-hd-wallet-react-native';
+
+const instructions = Platform.select({
+  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
+  android:
+    'Double tap R on your keyboard to reload,\n' +
+    'Shake or press menu button for dev menu',
+});
+
+type Props = {};
+export default class App extends Component<Props> {
+  state = {
+    mnemonic: '',
+    publicKey: '',
+    secret: ''
+  }
+  
+  constructor(props) {
+    super(props);
+    
+    try{
+      StellarHDWallet.generateMnemonic({entropyBits: 128}).then(mnemonic=>{
+        const wallet = StellarHDWallet.fromMnemonic(mnemonic);
+        const publicKey = wallet.getPublicKey(0);
+        const secret = wallet.getSecret(0);
+        
+        console.log(mnemonic);
+        console.log(publicKey);
+        console.log(secret);
+        
+        this.setState({mnemonic: mnemonic, publicKey: publicKey, secret: secret});
+        
+      }).catch(e=>{
+        console.error(e)
+      })
+    } catch (e) {
+      console.error(e)
+    }
+     
+  }
+  
+  render() {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.welcome}>Welcome to React Native!</Text>
+        <Text style={styles.instructions}>To get started, edit App.js</Text>
+        <Text style={styles.instructions}>{instructions}</Text>
+        <Text>{this.state.mnemonic.toString()}</Text>
+        <Text>{this.state.publicKey.toString()}</Text>
+        <Text>{this.state.secret.toString()}</Text>
+      </View>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+  },
+  welcome: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
+  },
+  instructions: {
+    textAlign: 'center',
+    color: '#333333',
+    marginBottom: 5,
+  },
+});
+```
 
 ```js
 import StellarHDWallet from 'stellar-hd-wallet'
